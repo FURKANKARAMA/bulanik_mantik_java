@@ -1,0 +1,51 @@
+package G191210073;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.Scanner;
+
+import net.sourceforge.jFuzzyLogic.plot.JFuzzyChart;
+import net.sourceforge.jFuzzyLogic.rule.Rule;
+
+public class TEST {
+
+	public static void main(String[] args) throws URISyntaxException {
+		try {
+			FileWriter dosyaYazıcı = new FileWriter("C:\\Users\\mavii\\OneDrive\\Documents\\yapay_sinir_aglari\\Data.txt");
+			BufferedWriter dosyaOutput = new BufferedWriter(dosyaYazıcı);
+			
+			dosyaOutput.write("deneme yazisi");
+			dosyaOutput.write("deneme yazisi");
+			dosyaOutput.close();
+			dosyaYazıcı.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for(int i=0;i<2;i++) {
+			Scanner in = new Scanner(System.in);
+			
+			System.out.print("Oksijen Miktari");
+			double oksijenMiktari=in.nextDouble();
+			
+			System.out.print("Yagis Miktari");
+			double havaninYagisDurumu=in.nextDouble();
+			camAcikligi camAcikligi = new camAcikligi(oksijenMiktari,havaninYagisDurumu);
+			JFuzzyChart.get().chart(camAcikligi.getModel());
+			JFuzzyChart.get().chart(camAcikligi.getModel().getVariable("pencereAcikligi").getDefuzzifier(),"Cam Acikligi Derecesi(Kural Grafik)",true);
+			for(Rule r : camAcikligi.getModel().getFunctionBlock("CamAciklikOraniModel").getFuzzyRuleBlock("kuralblok1").getRules()) {
+				if(r.getDegreeOfSupport()>0) {
+					System.out.println(r);
+				}
+				
+				
+			}
+			System.out.println(camAcikligi);
+			
+		}
+	
+
+	}
+}
